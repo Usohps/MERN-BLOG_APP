@@ -28,7 +28,8 @@ function Home() {
       <div className="mt-10 text-center text-2xl font-bold">
         <h1>WELCOME TO MY BLOG</h1>
       </div>
-      <div className="w-full md:container flex flex-col md:flex-row gap-4 items-center justify-center flex-wrap m-auto">
+      {uploads.length > 0 ? (
+        <div className="w-full md:container flex flex-col md:flex-row gap-4 items-center justify-center flex-wrap m-auto">
         {uploads &&
           uploads.map((blog) => (
               <div
@@ -39,6 +40,14 @@ function Home() {
               </div>
           ))}
       </div>
+      ):(
+        <div className="container m-auto shadow-xl rounded flex flex-col justify-center text-center items-center font-medium border border-t-0 h-[400px] p-4">
+          <div>
+            <h1 className="text-lg font-bold"> <span className="font-extrabold text-red-900 text-5xl">Sorry</span>,<br></br> No new Blogs yet please ensure you click the button on your screen below to create new blogs</h1>
+          </div>
+        </div>
+      )}
+      
       <Link to={"/create"}>
       <div className=" items-center flex flex-col p-2 my-6">
          <button className=" bg-green-400 border p-2 font-extrabold rounded-md">click to create blog</button>
