@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Homecontext } from "../context/HomeContext";
 function CreateBlog() {
-  const {AddUpload}= useContext(Homecontext)
+  const { AddUpload } = useContext(Homecontext);
   const history = useNavigate();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -23,15 +23,15 @@ function CreateBlog() {
   );
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await axios
+    await axios
       .post(`${process.env.REACT_APP_BASE_URL}/api/blog/`, {
         title,
         body,
         image,
         author,
       })
-      .then((res)=> AddUpload(res.data),history("/home"))
-      // (history("/home", { replace: true }));
+      .then((res) => AddUpload(res.data), history("/home"));
+    // (history("/home", { replace: true }));
   };
   return (
     <div className="w-full shadow-lg border mt-12 lg:w-[800px] md:w-[600px] m-auto ">
@@ -83,7 +83,9 @@ function CreateBlog() {
             ></textarea>
           </div>
         </div>
-        <button className=" bg-green-400 border p-2 font-extrabold rounded-md">CREATE NOW</button>
+        <button className=" bg-green-400 border p-2 font-extrabold rounded-md">
+          CREATE NOW
+        </button>
       </form>
     </div>
   );

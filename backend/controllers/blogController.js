@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const createBlog = async (req, res) => {
   console.log(req.body);
   const { title, body, image, author } = req.body;
-  const emptyfeild = [];
+  try {
+    const emptyfeild = [];
   if (!title) {
     emptyfeild.push("title");
   }
@@ -24,16 +25,20 @@ const createBlog = async (req, res) => {
         emptyfeild,
       });
   }
-  try {
     const blog = await blogSchema.create({ title, body, image, author });
     res.status(200).json(blog);
   } catch (error) {
+    console.log(error)
     res.status(400).json({ error: error.message });
   }
 };
 const getAllBlogs = async (req, res) => {
-  const blog = await blogSchema.find({}).sort({ createdAt: -1 });
+  try {
+    const blog = await blogSchema.find({}).sort({ createdAt: -1 });
   res.status(200).json(blog);
+  } catch (error) {
+    console.log(error)
+  }
 };
 const getSingleBlog = async(req,res)=>{
     const {id}= req.params
@@ -49,6 +54,7 @@ const getSingleBlog = async(req,res)=>{
 }
 const deleteBlog = async (request, response) => {
   const { id } = request.params;
+try {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return response.status(404).json({ error: "Wrong Identity" });
   }
@@ -59,5 +65,8 @@ const deleteBlog = async (request, response) => {
     console.log("Sucessfully Deleted",blog)
     return response.status(200).json(blog);
   }
+} catch (error) {
+  console.log(error)
+}
 };
 module.exports = { createBlog, getAllBlogs, getSingleBlog,deleteBlog };

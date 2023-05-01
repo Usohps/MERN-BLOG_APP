@@ -4,30 +4,28 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 function Login() {
-  const {Login} = useContext(AuthContext)
-  const navigate = useNavigate()
+  const { Login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,setError]= useState("")
+  const [error, setError] = useState("");
   async function handleLogin(e) {
     e.preventDefault();
-    await axios
+    axios
       .post(`${process.env.REACT_APP_BASE_URL}/api/user/login`, {
         email,
         password,
       })
       .then((response) => {
-        const data = response.data.token
+        const data = response.data.token;
         console.log(response.data);
-          Login(data)
-        // localStorage.setItem("user_token",JSON.stringify(data))
-        navigate("/home")
-        
+        Login(data);
+        navigate("/home");
       })
       .catch((error) => {
-        const errormsg= error.response.data.error;
-        console.log(errormsg)
-        setError(errormsg) 
+        const errormsg = error.response.data.Error;
+        console.log(errormsg);
+        setError(errormsg);
       });
   }
 
@@ -69,10 +67,11 @@ function Login() {
           <button className="border p-2">LOG IN</button>
         </div>
         {error && (
-          <span className="border container text-center md:w-[600px] bg-red-500 p-2 text-black font-extrabold">{error}</span>
+          <span className="border container text-center md:w-[600px] bg-red-500 p-2 text-black font-extrabold">
+            {error}
+          </span>
         )}
       </form>
-      
     </div>
   );
 }

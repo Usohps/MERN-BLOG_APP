@@ -9,23 +9,23 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const usersDetails = { names, email, password };
   // console.log(usersDetails)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/user/signup`, usersDetails)
-      .then((res) => navigate("/login"))
-      .catch((err) => {
-        if (err) {
-          const error = err.response.data.error;
-          console.log(error);
-          setErrorMsg(error);
-          setError(true);
-        }
-      });
-    // const data = `${process.env.REACT_APP_BASE_URL}/api/user/login`
-    // console.log(data)
+    try {
+      const usersDetails = { names, email, password };
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/signup`, usersDetails);
+      if (response.status === 200) {
+        navigate("/login");
+        console.log(response.data)
+      }
+    } catch (error) {
+      // setError(error.response.data.error);
+      console.log(error.response.data)
+      setErrorMsg(error.response.data.error)
+      setError(true)
+    }
+
   };
   return (
     <div className="flex flex-col justify-center items-center pt-6">
